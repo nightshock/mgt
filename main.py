@@ -174,7 +174,7 @@ test_data = scaled_test_data[-260:]  # Включая 60 предыдущих д
 
 # Создание X_test и y_test:
 X_test = []
-y_test = df['close'].iloc[-200:].values
+y_test = df['close'].iloc[-141:].values
 
 for i in range(60, len(test_data)):
     X_test.append(test_data[i-60:i, 0])
