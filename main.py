@@ -165,7 +165,7 @@ tuner.search(X_train, y_train, epochs=100, validation_split=0.2, callbacks=callb
 best_model = tuner.get_best_models(num_models=1)[0]
 
 # Обучение лучшей модели с сохранением весов
-history = best_model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, callbacks=[checkpoint])
+history = best_model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100, callbacks=[checkpoint])
 
 
 # Разделение данных на обучающий и тестовый наборы
@@ -202,7 +202,7 @@ print(f"Ошибка MAE на обучающих данных: {train_mae:.4f}")
 test_loss = best_model.evaluate(X_test, y_test, verbose=0)
 print(y_test.shape)
 print(best_model.predict(X_test).squeeze().shape)
-test_mae = mean_absolute_error(test_data[look_back:], predicted_values_unscaled)
+test_mae = mean_absolute_error(y_test, predicted_values_unscaled)
 print(f"Ошибка MAE на тестовых данных: {test_mae:.4f}")
 
 # Оценка статистики данных
@@ -225,10 +225,6 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(x=df.index, y=df['close'], mode='lines', name='Цены закрытия', line=dict(color='blue')))
 fig.update_layout(title='Временной ряд цен закрытия биткоина', xaxis_title='Дата', yaxis_title='Цена закрытия')
 fig.show()
-
-# Создание новой модели и загрузка весов
-new_model = build_model()  # создание нового экземпляра модели
-new_model.load_weights('best_model.h5')
 
 # Вывод результатов
 print('ADF Statistic:', result[0])
